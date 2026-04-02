@@ -108,26 +108,11 @@
 
     <div class="documentos">
       <strong>Tipo de Documento:</strong><br>
-
-      <div class="documento-opcion">
-        <label><input type="radio" name="tipoDoc" value="DNI" required> DNI</label>
-      </div>
-
-      <div class="documento-opcion">
-        <label><input type="radio" name="tipoDoc" value="PASAPORTE"> PASAPORTE</label>
-      </div>
-
-      <div class="documento-opcion">
-        <label><input type="radio" name="tipoDoc" value="NIE"> NIE</label>
-      </div>
-
-      <div class="documento-opcion">
-        <label><input type="radio" name="tipoDoc" value="PERMISO DE CONDUCCIÓN"> PERMISO DE CONDUCCIÓN</label>
-      </div>
-
-      <div class="documento-opcion">
-        <label><input type="radio" name="tipoDoc" value="OTRO"> OTRO</label>
-      </div>
+      <div class="documento-opcion"><label><input type="radio" name="tipoDoc" value="DNI" required> DNI</label></div>
+      <div class="documento-opcion"><label><input type="radio" name="tipoDoc" value="PASAPORTE"> PASAPORTE</label></div>
+      <div class="documento-opcion"><label><input type="radio" name="tipoDoc" value="NIE"> NIE</label></div>
+      <div class="documento-opcion"><label><input type="radio" name="tipoDoc" value="PERMISO DE CONDUCCIÓN"> PERMISO DE CONDUCCIÓN</label></div>
+      <div class="documento-opcion"><label><input type="radio" name="tipoDoc" value="OTRO"> OTRO</label></div>
     </div>
 
     <label>NÚMERO DE DOCUMENTO: <input type="text" id="numeroDoc" required></label>
@@ -206,15 +191,14 @@
     <div class="autorizacion">
       <input type="checkbox" id="autorizo">
       <label for="autorizo">
-        Autorizo a Hostal Ribas a enviar comunicaciones comerciales de sus productos y servicios a mi correo electrónico. Puede consultar toda nuestra política de protección de datos personales en la URL https://www.hostalribas.com/protecdades
+        Autorizo a Hostal Ribas a enviar comunicaciones comerciales de sus productos y servicios a mi correo electrónico. Puede consultar nuestra política de protección de datos en https://www.hostalribas.com/protecdades
       </label>
     </div>
 
     <button type="submit">Enviar</button>
   </form>
 
-  <!-- Cargamos nuestro script como módulo -->
+  <!-- Cargar script.js como módulo moderno -->
   <script type="module" src="script.js"></script>
-
 </body>
 </html>
