@@ -12,75 +12,28 @@
       text-align: center;
       font-size: 1.125em;
     }
-    h1 {
-      margin: 5px 0;
-      white-space: nowrap;
-      font-weight: bold;
-      font-size: 2em;
-    }
-    h2 {
-      margin: 5px 0;
-      white-space: nowrap;
-      font-size: 1.25em;
-    }
-    form {
-      text-align: left;
-      margin-top: 10px;
-      font-size: 1em;
-    }
-    label {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 6px;
-    }
+    h1 { margin: 5px 0; white-space: nowrap; font-weight: bold; font-size: 2em; }
+    h2 { margin: 5px 0; white-space: nowrap; font-size: 1.25em; }
+    form { text-align: left; margin-top: 10px; font-size: 1em; }
+    label { display: flex; justify-content: space-between; margin-bottom: 6px; }
     input[type="text"],
     input[type="email"],
     input[type="tel"],
     input[type="date"],
-    select {
-      flex: 1;
-      margin-left: 10px;
-      padding: 3px 6px;
-      font-size: 1em;
-    }
-    .documentos {
-      margin: 6px 0 12px 0;
-    }
-    .documento-opcion {
-      display: flex;
-      align-items: center;
-      margin-bottom: 3px;
-    }
-    .documento-opcion input {
-      margin-right: 6px;
-    }
-    .menores {
-      font-weight: bold;
-      font-size: 1em;
-      margin-top: 6px;
-      margin-bottom: 4px;
-    }
-    .autorizacion {
-      font-size: 0.625em;
-      margin-top: 6px;
-      display: flex;
-      align-items: flex-start;
-    }
-    .autorizacion input {
-      margin-right: 6px;
-      margin-top: 2px;
-    }
-    button {
-      margin-top: 12px;
-      padding: 8px 16px;
-      font-size: 1.125em;
-    }
+    select { flex: 1; margin-left: 10px; padding: 3px 6px; font-size: 1em; }
+    .documentos { margin: 6px 0 12px 0; }
+    .documento-opcion { display: flex; align-items: center; margin-bottom: 3px; }
+    .documento-opcion input { margin-right: 6px; }
+    .menores { font-weight: bold; font-size: 1em; margin-top: 6px; margin-bottom: 4px; }
+    .autorizacion { font-size: 0.625em; margin-top: 6px; display: flex; align-items: flex-start; }
+    .autorizacion input { margin-right: 6px; margin-top: 2px; }
+    button { margin-top: 12px; padding: 8px 16px; font-size: 1.125em; }
+
     .documento-opcion input[type="radio"] {
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
-      width: 18px;
-      height: 18px;
+      width: 18px; height: 18px;
       border: 2px solid #333;
       border-radius: 0;
       margin-right: 6px;
@@ -198,7 +151,7 @@
     <button type="submit">Enviar</button>
   </form>
 
-  <!-- Cargar script.js como módulo moderno -->
+  <!-- Solo cargamos nuestro script.js como módulo moderno -->
   <script type="module" src="script.js"></script>
 </body>
 </html>

@@ -39,10 +39,23 @@
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js';
 
+    // 1️⃣ Configurar Supabase
     const SUPABASE_URL = "https://beskvtpqslbdgxpaykpr.supabase.co";
     const SUPABASE_KEY = "sb_publishable_XRusyph2RQyJj9t8Y0gl6w_nsf5w_dK";
     const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    // 2️⃣ Formatear fechas
+    function formatearFecha(fecha) {
+      if (!fecha) return "";
+      const d = new Date(fecha);
+      if (isNaN(d)) return "";
+      const dia = String(d.getDate()).padStart(2, '0');
+      const mes = String(d.getMonth() + 1).padStart(2, '0');
+      const ano = String(d.getFullYear()).slice(-2);
+      return `${dia}/${mes}/${ano}`;
+    }
+
+    // 3️⃣ Cargar registros de Supabase
     async function cargarRegistros() {
       const { data, error } = await supabase
         .from('REGISTRE')
@@ -51,6 +64,7 @@
 
       if (error) {
         console.error("Error al obtener registros:", error);
+        alert("No se pudieron cargar los registros. Revisa la consola.");
         return;
       }
 
@@ -60,12 +74,12 @@
       data.forEach(registro => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td>${registro.fecha || ''}</td>
+          <td>${registro.fecha ? formatearFecha(registro.fecha) : ''}</td>
           <td>${registro.nombre || ''}</td>
           <td>${registro.apellidos || ''}</td>
           <td>${registro.tipoDoc || ''}</td>
           <td>${registro.numeroDoc || ''}</td>
-          <td>${registro.fechaNacimiento || ''}</td>
+          <td>${registro.fechaNacimiento ? formatearFecha(registro.fechaNacimiento) : ''}</td>
           <td>${registro.nacionalidad || ''}</td>
           <td>${registro.paisResidencia || ''}</td>
           <td>${registro.provincia || ''}</td>
@@ -81,6 +95,7 @@
       });
     }
 
+    // 4️⃣ Ejecutar carga al abrir la página
     cargarRegistros();
   </script>
 </body>
