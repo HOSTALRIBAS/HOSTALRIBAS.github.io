@@ -1,11 +1,14 @@
 // script.js
 
-// 1️⃣ Inicializar Supabase
+// 1️⃣ Importar Supabase (moderno)
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js';
+
+// 2️⃣ Inicializar Supabase
 const SUPABASE_URL = "https://beskvtpqslbdgxpaykpr.supabase.co";
 const SUPABASE_KEY = "sb_publishable_XRusyph2RQyJj9t8Y0gl6w_nsf5w_dK";
-const supabase = window.Supabase ? window.Supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// 2️⃣ Función para formatear fechas (dd/mm/aa)
+// 3️⃣ Función para formatear fechas (dd/mm/aa)
 function formatearFecha(fecha) {
   if (!fecha) return "";
   const d = new Date(fecha);
@@ -16,7 +19,7 @@ function formatearFecha(fecha) {
   return `${dia}/${mes}/${ano}`;
 }
 
-// 3️⃣ Capturar el submit del formulario
+// 4️⃣ Capturar submit del formulario
 document.getElementById("myForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
@@ -26,7 +29,6 @@ document.getElementById("myForm").addEventListener("submit", async function(e) {
     return;
   }
 
-  // 4️⃣ Recoger los datos del formulario
   const datos = {
     fecha: formatearFecha(new Date()),
     nombre: document.getElementById("nombre").value,
@@ -46,16 +48,13 @@ document.getElementById("myForm").addEventListener("submit", async function(e) {
     comComerciales: document.getElementById("autorizo").checked ? "Sí" : "No"
   };
 
-  // 5️⃣ Guardar los datos en Supabase
-  const { data, error } = await supabase
-    .from('REGISTRE')
-    .insert([datos]);
+  const { data, error } = await supabase.from('REGISTRE').insert([datos]);
 
   if (error) {
     alert("Error al guardar en Supabase: " + error.message);
   } else {
     alert("Registro guardado correctamente");
     this.reset();
-    window.location.href = "data.html"; // redirigir a la página de datos
+    window.location.href = "data.html";
   }
 });

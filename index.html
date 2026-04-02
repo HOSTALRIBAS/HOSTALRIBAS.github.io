@@ -10,23 +10,23 @@
       margin: 20px auto;
       line-height: 1.5;
       text-align: center;
-      font-size: 1.125em; /* +25% respecto a 0.9em anterior */
+      font-size: 1.125em;
     }
     h1 {
       margin: 5px 0;
       white-space: nowrap;
       font-weight: bold;
-      font-size: 2em; /* más grande */
+      font-size: 2em;
     }
     h2 {
       margin: 5px 0;
       white-space: nowrap;
-      font-size: 1.25em; /* +25% */
+      font-size: 1.25em;
     }
     form {
       text-align: left;
       margin-top: 10px;
-      font-size: 1em; /* base del formulario */
+      font-size: 1em;
     }
     label {
       display: flex;
@@ -40,7 +40,7 @@
     select {
       flex: 1;
       margin-left: 10px;
-      padding: 3px 6px; /* ligeramente más grande */
+      padding: 3px 6px;
       font-size: 1em;
     }
     .documentos {
@@ -56,12 +56,12 @@
     }
     .menores {
       font-weight: bold;
-      font-size: 1em; /* +25% */
+      font-size: 1em;
       margin-top: 6px;
       margin-bottom: 4px;
     }
     .autorizacion {
-      font-size: 0.625em; /* +25% respecto a 0.5em anterior */
+      font-size: 0.625em;
       margin-top: 6px;
       display: flex;
       align-items: flex-start;
@@ -75,30 +75,27 @@
       padding: 8px 16px;
       font-size: 1.125em;
     }
-
-.documento-opcion input[type="radio"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border: 2px solid #333;
-  border-radius: 0; /* esto hace que sea cuadrado */
-  margin-right: 6px;
-  position: relative;
-  cursor: pointer;
-}
-
-.documento-opcion input[type="radio"]:checked::after {
-  content: "";
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 12px;
-  height: 12px;
-  background-color: #333;
-}
-
+    .documento-opcion input[type="radio"] {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #333;
+      border-radius: 0;
+      margin-right: 6px;
+      position: relative;
+      cursor: pointer;
+    }
+    .documento-opcion input[type="radio"]:checked::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 12px;
+      height: 12px;
+      background-color: #333;
+    }
   </style>
 </head>
 <body>
@@ -106,119 +103,11 @@
   <h2>Registro de Viajeros de Establecimientos de Hostelaje</h2>
 
   <form id="myForm">
-    <label>NOMBRE: <input type="text" id="nombre" required></label>
-    <label>APELLIDOS: <input type="text" id="apellidos" required></label>
-
-<div class="documentos">
-  <strong>Tipo de Documento:</strong><br>
-
-  <div class="documento-opcion">
-    <label><input type="radio" name="tipoDoc" value="DNI" required> DNI</label>
-  </div>
-
-  <div class="documento-opcion">
-    <label><input type="radio" name="tipoDoc" value="PASAPORTE"> PASAPORTE</label>
-  </div>
-
-  <div class="documento-opcion">
-    <label><input type="radio" name="tipoDoc" value="NIE"> NIE</label>
-  </div>
-
-  <div class="documento-opcion">
-    <label><input type="radio" name="tipoDoc" value="PERMISO DE CONDUCCIÓN"> PERMISO DE CONDUCCIÓN</label>
-  </div>
-
-  <div class="documento-opcion">
-    <label><input type="radio" name="tipoDoc" value="OTRO"> OTRO</label>
-  </div>
-</div>
-
-    <label>NÚMERO DE DOCUMENTO: <input type="text" id="numeroDoc" required></label>
-    <label>FECHA DE NACIMIENTO: <input type="date" id="fechaNacimiento" required></label>
-
-    <label>NACIONALIDAD:
-      <select id="nacionalidad" required>
-        <option value="">Selecciona país</option>
-        <option value="España">España</option>
-        <option value="Francia">Francia</option>
-        <option value="Alemania">Alemania</option>
-        <option value="Italia">Italia</option>
-        <option value="Portugal">Portugal</option>
-        <option value="Reino Unido">Reino Unido</option>
-        <option value="Países Bajos">Países Bajos</option>
-        <option value="Bélgica">Bélgica</option>
-        <option value="Suiza">Suiza</option>
-        <option value="Suecia">Suecia</option>
-        <option value="Estados Unidos">Estados Unidos</option>
-        <option value="Canadá">Canadá</option>
-        <option value="Brasil">Brasil</option>
-        <option value="Argentina">Argentina</option>
-        <option value="Chile">Chile</option>
-        <option value="Colombia">Colombia</option>
-        <option value="México">México</option>
-        <option value="Marruecos">Marruecos</option>
-        <option value="Argelia">Argelia</option>
-        <option value="Túnez">Túnez</option>
-        <option value="Egipto">Egipto</option>
-        <option value="Australia">Australia</option>
-        <option value="Rusia">Rusia</option>
-        <option value="Otros">Otros Países</option>
-      </select>
-    </label>
-
-    <label>PAÍS DE RESIDENCIA:
-      <select id="paisResidencia" required>
-        <option value="">Selecciona país</option>
-        <option value="España">España</option>
-        <option value="Francia">Francia</option>
-        <option value="Alemania">Alemania</option>
-        <option value="Italia">Italia</option>
-        <option value="Portugal">Portugal</option>
-        <option value="Reino Unido">Reino Unido</option>
-        <option value="Países Bajos">Países Bajos</option>
-        <option value="Bélgica">Bélgica</option>
-        <option value="Suiza">Suiza</option>
-        <option value="Suecia">Suecia</option>
-        <option value="Estados Unidos">Estados Unidos</option>
-        <option value="Canadá">Canadá</option>
-        <option value="Brasil">Brasil</option>
-        <option value="Argentina">Argentina</option>
-        <option value="Chile">Chile</option>
-        <option value="Colombia">Colombia</option>
-        <option value="México">México</option>
-        <option value="Marruecos">Marruecos</option>
-        <option value="Argelia">Argelia</option>
-        <option value="Túnez">Túnez</option>
-        <option value="Egipto">Egipto</option>
-        <option value="Australia">Australia</option>
-        <option value="Rusia">Rusia</option>
-        <option value="Otros">Otros Países</option>
-      </select>
-    </label>
-
-    <label>PROVINCIA: <input type="text" id="provincia" required></label>
-    <label>CÓDIGO POSTAL: <input type="text" id="codigoPostal" required></label>
-    <label>MUNICIPIO: <input type="text" id="municipio" required></label>
-    <label>DIRECCIÓN: <input type="text" id="direccion" required></label>
-    <label>TELÉFONO: <input type="tel" id="telefono" required></label>
-    <label>EMAIL: <input type="email" id="email" required></label>
-
-    <div class="menores">MENORES DE EDAD</div>
-    <label>RELACIÓN DE PARENTESCO: <input type="text" id="parentesco"></label>
-
-    <div class="autorizacion">
-      <input type="checkbox" id="autorizo">
-      <label for="autorizo">
-        Autorizo a Hostal Ribas a enviar comunicaciones comerciales de sus productos y servicios a mi correo electrónico. Puede consultar toda nuestra política de protección de datos personales en la URL https://www.hostalribas.com/protecdades
-      </label>
-    </div>
-
-    <button type="submit">Enviar</button>
+    <!-- Aquí va todo tu formulario tal como lo tienes -->
+    <!-- ... -->
   </form>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
-
-<script src="script.js"></script>
-
+  <!-- Usamos type="module" para poder usar import en script.js -->
+  <script type="module" src="script.js"></script>
 </body>
 </html>
