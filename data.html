@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registros de Viajeros</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 20px auto;
+      font-size: 1em;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #333;
+      padding: 6px 8px;
+      text-align: left;
+      font-size: 0.9em;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    tbody tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <h1>Registros de Viajeros</h1>
+  <table id="tablaRegistros">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>Tipo Doc</th>
+        <th>Número Doc</th>
+        <th>Fecha Nac</th>
+        <th>Nacionalidad</th>
+        <th>País Residencia</th>
+        <th>Provincia</th>
+        <th>Código Postal</th>
+        <th>Municipio</th>
+        <th>Dirección</th>
+        <th>Teléfono</th>
+        <th>Email</th>
+        <th>Parentesco</th>
+        <th>Comerciales</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Los registros se insertarán aquí -->
+    </tbody>
+  </table>
+
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+  <script>
+    // 1️⃣ Inicializar Supabase
+    const SUPABASE_URL = "https://beskvtpqslbdgxpaykpr.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_XRusyph2RQyJj9t8Y0gl6w_nsf5w_dK";
+    const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const tablaBody = document.querySelector("#tablaRegistros tbody");
+
+    // 2️⃣ Función para añadir un registro a la tabla
+    function agregarFila(registro) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${registro.fecha}</td>
+        <td>${registro.nombre}</td>
+        <td>${registro.apellidos}</td>
+        <td>${registro.tipoDoc}</td>
+        <td>${registro.numeroDoc}</td>
+        <td>${registro.fechaNacimiento}</td>
+        <td>${registro.nacionalidad}</td>
+        <td>${registro.paisResidencia}</td>
+        <td>${registro.provincia}</td>
+        <td>${registro.codigoPostal}</td>
+        <td>${registro.municipio}</td>
+        <td>${registro.direccion}</td>
+        <td>${registro.telefono}</td>
+        <td>${registro.email}</td>
+        <td>${registro.parentesco}</td>
+        <td>${registro.comComerciales}</td>
+      `;
+      tablaBody.appendChild(tr);
+      // Hace scroll automático al último registro
+      tr.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+
+    // 3️⃣ Cargar registros existentes al abrir la página
+    async function cargarRegistros() {
+      const { data, error } = await supabase
+        .from("REGISTRE")
+        .select("*")
+        .order("fecha", { ascending: true }); // de arriba a abajo
+      if (error) {
+        alert("Error al cargar registros: " + error.message);
+      } else {
+        data.forEach(reg => agregarFila(reg));
+      }
+    }
+
+    cargarRegistros();
+
+    // 4️⃣ Escuchar nuevos registros en tiempo real
+    supabase
+      .channel("public:REGISTRE")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "REGISTRE" },
+        payload => {
+          agregarFila(payload.new);
+        }
+      )
+      .subscribe();
+  </script>
+</body>
+</html>
