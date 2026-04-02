@@ -103,11 +103,118 @@
   <h2>Registro de Viajeros de Establecimientos de Hostelaje</h2>
 
   <form id="myForm">
-    <!-- Aquí va todo tu formulario tal como lo tienes -->
-    <!-- ... -->
+    <label>NOMBRE: <input type="text" id="nombre" required></label>
+    <label>APELLIDOS: <input type="text" id="apellidos" required></label>
+
+    <div class="documentos">
+      <strong>Tipo de Documento:</strong><br>
+
+      <div class="documento-opcion">
+        <label><input type="radio" name="tipoDoc" value="DNI" required> DNI</label>
+      </div>
+
+      <div class="documento-opcion">
+        <label><input type="radio" name="tipoDoc" value="PASAPORTE"> PASAPORTE</label>
+      </div>
+
+      <div class="documento-opcion">
+        <label><input type="radio" name="tipoDoc" value="NIE"> NIE</label>
+      </div>
+
+      <div class="documento-opcion">
+        <label><input type="radio" name="tipoDoc" value="PERMISO DE CONDUCCIÓN"> PERMISO DE CONDUCCIÓN</label>
+      </div>
+
+      <div class="documento-opcion">
+        <label><input type="radio" name="tipoDoc" value="OTRO"> OTRO</label>
+      </div>
+    </div>
+
+    <label>NÚMERO DE DOCUMENTO: <input type="text" id="numeroDoc" required></label>
+    <label>FECHA DE NACIMIENTO: <input type="date" id="fechaNacimiento" required></label>
+
+    <label>NACIONALIDAD:
+      <select id="nacionalidad" required>
+        <option value="">Selecciona país</option>
+        <option value="España">España</option>
+        <option value="Francia">Francia</option>
+        <option value="Alemania">Alemania</option>
+        <option value="Italia">Italia</option>
+        <option value="Portugal">Portugal</option>
+        <option value="Reino Unido">Reino Unido</option>
+        <option value="Países Bajos">Países Bajos</option>
+        <option value="Bélgica">Bélgica</option>
+        <option value="Suiza">Suiza</option>
+        <option value="Suecia">Suecia</option>
+        <option value="Estados Unidos">Estados Unidos</option>
+        <option value="Canadá">Canadá</option>
+        <option value="Brasil">Brasil</option>
+        <option value="Argentina">Argentina</option>
+        <option value="Chile">Chile</option>
+        <option value="Colombia">Colombia</option>
+        <option value="México">México</option>
+        <option value="Marruecos">Marruecos</option>
+        <option value="Argelia">Argelia</option>
+        <option value="Túnez">Túnez</option>
+        <option value="Egipto">Egipto</option>
+        <option value="Australia">Australia</option>
+        <option value="Rusia">Rusia</option>
+        <option value="Otros">Otros Países</option>
+      </select>
+    </label>
+
+    <label>PAÍS DE RESIDENCIA:
+      <select id="paisResidencia" required>
+        <option value="">Selecciona país</option>
+        <option value="España">España</option>
+        <option value="Francia">Francia</option>
+        <option value="Alemania">Alemania</option>
+        <option value="Italia">Italia</option>
+        <option value="Portugal">Portugal</option>
+        <option value="Reino Unido">Reino Unido</option>
+        <option value="Países Bajos">Países Bajos</option>
+        <option value="Bélgica">Bélgica</option>
+        <option value="Suiza">Suiza</option>
+        <option value="Suecia">Suecia</option>
+        <option value="Estados Unidos">Estados Unidos</option>
+        <option value="Canadá">Canadá</option>
+        <option value="Brasil">Brasil</option>
+        <option value="Argentina">Argentina</option>
+        <option value="Chile">Chile</option>
+        <option value="Colombia">Colombia</option>
+        <option value="México">México</option>
+        <option value="Marruecos">Marruecos</option>
+        <option value="Argelia">Argelia</option>
+        <option value="Túnez">Túnez</option>
+        <option value="Egipto">Egipto</option>
+        <option value="Australia">Australia</option>
+        <option value="Rusia">Rusia</option>
+        <option value="Otros">Otros Países</option>
+      </select>
+    </label>
+
+    <label>PROVINCIA: <input type="text" id="provincia" required></label>
+    <label>CÓDIGO POSTAL: <input type="text" id="codigoPostal" required></label>
+    <label>MUNICIPIO: <input type="text" id="municipio" required></label>
+    <label>DIRECCIÓN: <input type="text" id="direccion" required></label>
+    <label>TELÉFONO: <input type="tel" id="telefono" required></label>
+    <label>EMAIL: <input type="email" id="email" required></label>
+
+    <div class="menores">MENORES DE EDAD</div>
+    <label>RELACIÓN DE PARENTESCO: <input type="text" id="parentesco"></label>
+
+    <div class="autorizacion">
+      <input type="checkbox" id="autorizo">
+      <label for="autorizo">
+        Autorizo a Hostal Ribas a enviar comunicaciones comerciales de sus productos y servicios a mi correo electrónico. Puede consultar toda nuestra política de protección de datos personales en la URL https://www.hostalribas.com/protecdades
+      </label>
+    </div>
+
+    <button type="submit">Enviar</button>
   </form>
 
-  <!-- Usamos type="module" para poder usar import en script.js -->
+  <!-- Cargamos nuestro script como módulo -->
   <script type="module" src="script.js"></script>
+
 </body>
 </html>

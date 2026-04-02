@@ -1,14 +1,13 @@
 // script.js
-
-// 1️⃣ Importar Supabase (moderno)
+// 🚀 Usamos módulo moderno, importando Supabase
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js';
 
-// 2️⃣ Inicializar Supabase
+// 1️⃣ Inicializar Supabase
 const SUPABASE_URL = "https://beskvtpqslbdgxpaykpr.supabase.co";
 const SUPABASE_KEY = "sb_publishable_XRusyph2RQyJj9t8Y0gl6w_nsf5w_dK";
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// 3️⃣ Función para formatear fechas (dd/mm/aa)
+// 2️⃣ Función para formatear fechas (dd/mm/aa)
 function formatearFecha(fecha) {
   if (!fecha) return "";
   const d = new Date(fecha);
@@ -19,16 +18,18 @@ function formatearFecha(fecha) {
   return `${dia}/${mes}/${ano}`;
 }
 
-// 4️⃣ Capturar submit del formulario
+// 3️⃣ Capturar el submit del formulario
 document.getElementById("myForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
+  // Validar tipo de documento
   const tipoSeleccionado = document.querySelector('input[name="tipoDoc"]:checked');
   if (!tipoSeleccionado) {
     alert("Selecciona un tipo de documento");
     return;
   }
 
+  // 4️⃣ Recoger los datos del formulario
   const datos = {
     fecha: formatearFecha(new Date()),
     nombre: document.getElementById("nombre").value,
@@ -48,13 +49,22 @@ document.getElementById("myForm").addEventListener("submit", async function(e) {
     comComerciales: document.getElementById("autorizo").checked ? "Sí" : "No"
   };
 
-  const { data, error } = await supabase.from('REGISTRE').insert([datos]);
+  // 5️⃣ Guardar los datos en Supabase
+  try {
+    const { data, error } = await supabase
+      .from('REGISTRE')
+      .insert([datos]);
 
-  if (error) {
-    alert("Error al guardar en Supabase: " + error.message);
-  } else {
-    alert("Registro guardado correctamente");
-    this.reset();
-    window.location.href = "data.html";
+    if (error) {
+      alert("Error al guardar en Supabase: " + error.message);
+      console.error(error);
+    } else {
+      alert("Registro guardado correctamente");
+      this.reset();
+      window.location.href = "data.html"; // redirigir a página de datos
+    }
+  } catch (err) {
+    console.error("Error inesperado:", err);
+    alert("Ocurrió un error inesperado. Revisa la consola.");
   }
 });
