@@ -3,7 +3,7 @@
 // 1️⃣ Inicializar Supabase
 const SUPABASE_URL = "https://beskvtpqslbdgxpaykpr.supabase.co";
 const SUPABASE_KEY = "sb_publishable_XRusyph2RQyJj9t8Y0gl6w_nsf5w_dK";
-const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabase = window.Supabase ? window.Supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // 2️⃣ Función para formatear fechas (dd/mm/aa)
 function formatearFecha(fecha) {
