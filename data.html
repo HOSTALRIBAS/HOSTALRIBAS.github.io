@@ -37,17 +37,15 @@
 </table>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-const supabase = window.supabase.createClient(
+const supabaseData = window.supabase.createClient(
   "https://beskvtpqslbdgxpaykpr.supabase.co",
   "sb_publishable_XRusyph2RQyJj9t8Y0gl6w_nsf5w_dK"
 );
 
 async function cargarDatos() {
-  const { data, error } = await supabase
-    .from("REGISTRE")
-    .select("*")
-    .order("id", { ascending: true });
+  const { data, error } = await supabaseData.from("REGISTRE").select("*").order("id", { ascending: true });
 
   if (error) {
     console.error(error);
@@ -59,7 +57,6 @@ async function cargarDatos() {
 
   data.forEach(reg => {
     const fila = document.createElement("tr");
-
     fila.innerHTML = `
       <td>${reg.fecha}</td>
       <td>${reg.nombre}</td>
@@ -78,7 +75,6 @@ async function cargarDatos() {
       <td>${reg.parentesco}</td>
       <td>${reg.comComerciales}</td>
     `;
-
     tabla.appendChild(fila);
   });
 }

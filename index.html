@@ -151,17 +151,17 @@
     <button type="submit">Enviar</button>
   </form>
 
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-const supabase = window.supabase.createClient(
+const supabaseForm = window.supabase.createClient(
   "https://beskvtpqslbdgxpaykpr.supabase.co",
   "sb_publishable_XRusyph2RQyJj9t8Y0gl6w_nsf5w_dK"
 );
 
+// Código de submit del formulario usando supabaseForm
 document.getElementById("myForm").addEventListener("submit", async function(e) {
   e.preventDefault();
-
   const datos = {
     fecha: new Date().toLocaleString(),
     nombre: document.getElementById("nombre").value,
@@ -181,10 +181,7 @@ document.getElementById("myForm").addEventListener("submit", async function(e) {
     comComerciales: document.getElementById("autorizo").checked ? "Sí" : "No"
   };
 
-  const { error } = await supabase
-    .from("REGISTRE")
-    .insert([datos]);
-
+  const { error } = await supabaseForm.from("REGISTRE").insert([datos]);
   if (error) {
     console.error(error);
     alert("Error al guardar");
