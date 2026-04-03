@@ -9,55 +9,140 @@
       max-width: 700px;
       margin: 20px auto;
       line-height: 1.5;
-      text-align: center;
       font-size: 1.125em;
+      background-color: #515151; /* Fondo gris */
+      color: #fff;
     }
-    h1 { margin: 5px 0; white-space: nowrap; font-weight: bold; font-size: 2em; }
-    h2 { margin: 5px 0; white-space: nowrap; font-size: 1.25em; }
-    form { text-align: left; margin-top: 10px; font-size: 1em; }
-    label { display: flex; justify-content: space-between; margin-bottom: 6px; }
+
+    h1, h2 {
+      text-align: center;
+      margin: 10px 0;
+    }
+    h1 { font-size: 2em; font-weight: bold; }
+    h2 { font-size: 1.25em; font-weight: normal; }
+
+    form {
+      background-color: #515151; /* Fondo gris */
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    /* Etiquetas alineadas a la derecha */
+    label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    label > span {
+      text-align: right;
+      margin-right: 10px;
+      min-width: 180px;
+    }
+
+    /* Inputs y selects con fondo blanco */
     input[type="text"],
     input[type="email"],
     input[type="tel"],
     input[type="date"],
-    select { flex: 1; margin-left: 10px; padding: 3px 6px; font-size: 1em; }
-    .documentos { margin: 6px 0 12px 0; }
-    .documento-opcion { display: flex; align-items: center; margin-bottom: 3px; }
-    .documento-opcion input { margin-right: 6px; }
-    .menores { font-weight: bold; font-size: 1em; margin-top: 6px; margin-bottom: 4px; }
-    .autorizacion { font-size: 0.625em; margin-top: 6px; display: flex; align-items: flex-start; }
-    .autorizacion input { margin-right: 6px; margin-top: 2px; }
-    button { margin-top: 12px; padding: 8px 16px; font-size: 1.125em; }
+    select {
+      flex: 1;
+      padding: 6px 10px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff; /* Fondo blanco */
+      color: #000; /* Texto negro */
+    }
+
+    /* Radio buttons con '✓' */
+    .documento-opcion {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+      color: #fff;
+    }
 
     .documento-opcion input[type="radio"] {
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
-      width: 18px; height: 18px;
-      border: 2px solid #333;
-      border-radius: 0;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #fff;
+      border-radius: 4px;
       margin-right: 6px;
       position: relative;
       cursor: pointer;
+      background-color: #515151; /* gris para radio no seleccionado */
     }
+
     .documento-opcion input[type="radio"]:checked::after {
-      content: "";
+      content: "✓";
       position: absolute;
-      top: 2px;
+      top: 0px;
       left: 2px;
-      width: 12px;
-      height: 12px;
-      background-color: #333;
+      font-size: 16px;
+      color: #fff;
     }
+
+    /* MENORES */
+    .menores {
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 6px;
+      text-decoration: underline;
+    }
+
+    /* Autorización */
+    .autorizacion {
+      font-size: 0.875em;
+      display: flex;
+      align-items: flex-start;
+      margin-top: 10px;
+      color: #fff;
+    }
+    .autorizacion input { margin-right: 8px; margin-top: 2px; }
+
+    /* Botón centrado con fondo blanco */
+    button {
+  display: block;
+  margin: 20px auto 0 auto;
+  padding: 10px 20px;
+  font-size: 1.125em;
+  background-color: #fff;
+  color: #515151;
+  border: 1px solid #515151;
+  border-radius: 6px;
+  cursor: pointer;
+
+  /* Animación suave */
+  transition: all 0.2s ease;
+}
+
+/* Hover → crece */
+button:hover {
+  background-color: #fff;
+  transform: scale(1.05);
+}
+
+/* Click → efecto pulsado */
+button:active {
+  transform: scale(0.97);
+}
+
   </style>
 </head>
 <body>
+
   <h1>HOSTAL RIBAS</h1>
   <h2>Registro de Viajeros de Establecimientos de Hostelaje</h2>
 
   <form id="myForm">
-    <label>NOMBRE: <input type="text" id="nombre" required></label>
-    <label>APELLIDOS: <input type="text" id="apellidos" required></label>
+
+    <label><span>NOMBRE:</span> <input type="text" id="nombre" required></label>
+    <label><span>APELLIDOS:</span> <input type="text" id="apellidos" required></label>
 
     <div class="documentos">
       <strong>Tipo de Documento:</strong><br>
@@ -68,10 +153,10 @@
       <div class="documento-opcion"><label><input type="radio" name="tipoDoc" value="OTRO"> OTRO</label></div>
     </div>
 
-    <label>NÚMERO DE DOCUMENTO: <input type="text" id="numeroDoc" required></label>
-    <label>FECHA DE NACIMIENTO: <input type="date" id="fechaNacimiento" required></label>
+    <label><span>NÚMERO DE DOCUMENTO:</span> <input type="text" id="numeroDoc" required></label>
+    <label><span>FECHA DE NACIMIENTO:</span> <input type="date" id="fechaNacimiento" required></label>
 
-    <label>NACIONALIDAD:
+    <label><span>NACIONALIDAD:</span>
       <select id="nacionalidad" required>
         <option value="">Selecciona país</option>
         <option value="España">España</option>
@@ -101,7 +186,7 @@
       </select>
     </label>
 
-    <label>PAÍS DE RESIDENCIA:
+    <label><span>PAÍS DE RESIDENCIA:</span>
       <select id="paisResidencia" required>
         <option value="">Selecciona país</option>
         <option value="España">España</option>
@@ -131,15 +216,15 @@
       </select>
     </label>
 
-    <label>PROVINCIA: <input type="text" id="provincia" required></label>
-    <label>CÓDIGO POSTAL: <input type="text" id="codigoPostal" required></label>
-    <label>MUNICIPIO: <input type="text" id="municipio" required></label>
-    <label>DIRECCIÓN: <input type="text" id="direccion" required></label>
-    <label>TELÉFONO: <input type="tel" id="telefono" required></label>
-    <label>EMAIL: <input type="email" id="email" required></label>
+    <label><span>PROVINCIA:</span> <input type="text" id="provincia" required></label>
+    <label><span>CÓDIGO POSTAL:</span> <input type="text" id="codigoPostal" required></label>
+    <label><span>MUNICIPIO:</span> <input type="text" id="municipio" required></label>
+    <label><span>DIRECCIÓN:</span> <input type="text" id="direccion" required></label>
+    <label><span>TELÉFONO:</span> <input type="tel" id="telefono" required></label>
+    <label><span>EMAIL:</span> <input type="email" id="email" required></label>
 
     <div class="menores">MENORES DE EDAD</div>
-    <label>RELACIÓN DE PARENTESCO: <input type="text" id="parentesco"></label>
+    <label><span>RELACIÓN DE PARENTESCO:</span> <input type="text" id="parentesco"></label>
 
     <div class="autorizacion">
       <input type="checkbox" id="autorizo">
@@ -151,47 +236,44 @@
     <button type="submit">Enviar</button>
   </form>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const supabaseForm = window.supabase.createClient(
+      "https://beskvtpqslbdgxpaykpr.supabase.co",
+      "sb_publishable_XRusyph2RQyJj9t8Y0gl6w_nsf5w_dK"
+    );
 
-<script>
-const supabaseForm = window.supabase.createClient(
-  "https://beskvtpqslbdgxpaykpr.supabase.co",
-  "sb_publishable_XRusyph2RQyJj9t8Y0gl6w_nsf5w_dK"
-);
+    document.getElementById("myForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const datos = {
+        fecha: new Date().toLocaleString(),
+        nombre: document.getElementById("nombre").value,
+        apellidos: document.getElementById("apellidos").value,
+        tipoDoc: document.querySelector('input[name="tipoDoc"]:checked')?.value,
+        numeroDoc: document.getElementById("numeroDoc").value,
+        fechaNacimiento: document.getElementById("fechaNacimiento").value,
+        nacionalidad: document.getElementById("nacionalidad").value,
+        paisResidencia: document.getElementById("paisResidencia").value,
+        provincia: document.getElementById("provincia").value,
+        codigoPostal: document.getElementById("codigoPostal").value,
+        municipio: document.getElementById("municipio").value,
+        direccion: document.getElementById("direccion").value,
+        telefono: document.getElementById("telefono").value,
+        email: document.getElementById("email").value,
+        parentesco: document.getElementById("parentesco").value,
+        comComerciales: document.getElementById("autorizo").checked ? "Sí" : "No"
+      };
 
-// Código de submit del formulario usando supabaseForm
-document.getElementById("myForm").addEventListener("submit", async function(e) {
-  e.preventDefault();
-  const datos = {
-    fecha: new Date().toLocaleString(),
-    nombre: document.getElementById("nombre").value,
-    apellidos: document.getElementById("apellidos").value,
-    tipoDoc: document.querySelector('input[name="tipoDoc"]:checked')?.value,
-    numeroDoc: document.getElementById("numeroDoc").value,
-    fechaNacimiento: document.getElementById("fechaNacimiento").value,
-    nacionalidad: document.getElementById("nacionalidad").value,
-    paisResidencia: document.getElementById("paisResidencia").value,
-    provincia: document.getElementById("provincia").value,
-    codigoPostal: document.getElementById("codigoPostal").value,
-    municipio: document.getElementById("municipio").value,
-    direccion: document.getElementById("direccion").value,
-    telefono: document.getElementById("telefono").value,
-    email: document.getElementById("email").value,
-    parentesco: document.getElementById("parentesco").value,
-    comComerciales: document.getElementById("autorizo").checked ? "Sí" : "No"
-  };
-
-  const { error } = await supabaseForm.from("REGISTRE").insert([datos]);
-  if (error) {
-    console.error(error);
-    alert("Error al guardar");
-  } else {
-    alert("Guardado correctamente");
-    document.getElementById("myForm").reset();
-  }
-});
-</script>
-
+      const { error } = await supabaseForm.from("REGISTRE").insert([datos]);
+      if (error) {
+        console.error(error);
+        alert("Error al guardar");
+      } else {
+        alert("Guardado correctamente");
+        document.getElementById("myForm").reset();
+      }
+    });
+  </script>
 
 </body>
 </html>
