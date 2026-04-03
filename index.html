@@ -151,7 +151,50 @@
     <button type="submit">Enviar</button>
   </form>
 
-  <!-- Solo cargamos nuestro script.js como módulo moderno -->
-  <script type="module" src="script.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const supabase = window.supabase.createClient(
+  "https://beskvtpqslbdgxpaykpr.supabase.co",
+  "sb_publishable_XRusyph2RQyJj9t8Y0gl6w_nsf5w_dK"
+);
+
+document.getElementById("myForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const datos = {
+    fecha: new Date().toLocaleString(),
+    nombre: document.getElementById("nombre").value,
+    apellidos: document.getElementById("apellidos").value,
+    tipoDoc: document.querySelector('input[name="tipoDoc"]:checked')?.value,
+    numeroDoc: document.getElementById("numeroDoc").value,
+    fechaNacimiento: document.getElementById("fechaNacimiento").value,
+    nacionalidad: document.getElementById("nacionalidad").value,
+    paisResidencia: document.getElementById("paisResidencia").value,
+    provincia: document.getElementById("provincia").value,
+    codigoPostal: document.getElementById("codigoPostal").value,
+    municipio: document.getElementById("municipio").value,
+    direccion: document.getElementById("direccion").value,
+    telefono: document.getElementById("telefono").value,
+    email: document.getElementById("email").value,
+    parentesco: document.getElementById("parentesco").value,
+    comComerciales: document.getElementById("autorizo").checked ? "Sí" : "No"
+  };
+
+  const { error } = await supabase
+    .from("REGISTRE")
+    .insert([datos]);
+
+  if (error) {
+    console.error(error);
+    alert("Error al guardar");
+  } else {
+    alert("Guardado correctamente");
+    document.getElementById("myForm").reset();
+  }
+});
+</script>
+
+
 </body>
 </html>

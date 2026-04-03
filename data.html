@@ -2,101 +2,89 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Datos Registrados</title>
+  <title>Datos</title>
   <style>
-    body { font-family: Arial; max-width: 900px; margin: 20px auto; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #333; padding: 6px; text-align: left; }
-    th { background-color: #eee; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #333; padding: 5px; }
   </style>
 </head>
 <body>
-  <h1>Registros de Viajeros</h1>
-  <table id="tablaRegistros">
-    <thead>
-      <tr>
-        <th>Fecha</th>
-        <th>Nombre</th>
-        <th>Apellidos</th>
-        <th>Tipo Doc</th>
-        <th>Número Doc</th>
-        <th>Fecha Nac.</th>
-        <th>Nacionalidad</th>
-        <th>País Residencia</th>
-        <th>Provincia</th>
-        <th>Cód. Postal</th>
-        <th>Municipio</th>
-        <th>Dirección</th>
-        <th>Teléfono</th>
-        <th>Email</th>
-        <th>Parentesco</th>
-        <th>Com. Comerciales</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
 
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js';
+<h2>Registros</h2>
 
-    // 1️⃣ Configurar Supabase
-    const SUPABASE_URL = "https://beskvtpqslbdgxpaykpr.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_XRusyph2RQyJj9t8Y0gl6w_nsf5w_dK";
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+<table>
+  <thead>
+    <tr>
+      <th>FECHA</th>
+      <th>NOMBRE</th>
+      <th>APELLIDOS</th>
+      <th>TIPO DOC</th>
+      <th>NR DOC</th>
+      <th>FECHA NACIMIENTO</th>
+      <th>NACIONALIDAD</th>
+      <th>PAÍS RESIDENCIA</th>
+      <th>PROVINCIA</th>
+      <th>COD. POSTAL</th>
+      <th>MUNICIPIO</th>
+      <th>DIRECCIÓN</th>
+      <th>TELÉFONO</th>
+      <th>EMAIL</th>
+      <th>PARENTESCO</th>
+      <th>AUT. COMERCIAL</th>
+    </tr>
+  </thead>
+  <tbody id="tabla"></tbody>
+</table>
 
-    // 2️⃣ Formatear fechas
-    function formatearFecha(fecha) {
-      if (!fecha) return "";
-      const d = new Date(fecha);
-      if (isNaN(d)) return "";
-      const dia = String(d.getDate()).padStart(2, '0');
-      const mes = String(d.getMonth() + 1).padStart(2, '0');
-      const ano = String(d.getFullYear()).slice(-2);
-      return `${dia}/${mes}/${ano}`;
-    }
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const supabase = window.supabase.createClient(
+  "https://beskvtpqslbdgxpaykpr.supabase.co",
+  "sb_publishable_XRusyph2RQyJj9t8Y0gl6w_nsf5w_dK"
+);
 
-    // 3️⃣ Cargar registros de Supabase
-    async function cargarRegistros() {
-      const { data, error } = await supabase
-        .from('REGISTRE')
-        .select('*')
-        .order('fecha', { ascending: false });
+async function cargarDatos() {
+  const { data, error } = await supabase
+    .from("REGISTRE")
+    .select("*")
+    .order("id", { ascending: true });
 
-      if (error) {
-        console.error("Error al obtener registros:", error);
-        alert("No se pudieron cargar los registros. Revisa la consola.");
-        return;
-      }
+  if (error) {
+    console.error(error);
+    return;
+  }
 
-      const tbody = document.querySelector('#tablaRegistros tbody');
-      tbody.innerHTML = '';
+  const tabla = document.getElementById("tabla");
+  tabla.innerHTML = "";
 
-      data.forEach(registro => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${registro.fecha ? formatearFecha(registro.fecha) : ''}</td>
-          <td>${registro.nombre || ''}</td>
-          <td>${registro.apellidos || ''}</td>
-          <td>${registro.tipoDoc || ''}</td>
-          <td>${registro.numeroDoc || ''}</td>
-          <td>${registro.fechaNacimiento ? formatearFecha(registro.fechaNacimiento) : ''}</td>
-          <td>${registro.nacionalidad || ''}</td>
-          <td>${registro.paisResidencia || ''}</td>
-          <td>${registro.provincia || ''}</td>
-          <td>${registro.codigoPostal || ''}</td>
-          <td>${registro.municipio || ''}</td>
-          <td>${registro.direccion || ''}</td>
-          <td>${registro.telefono || ''}</td>
-          <td>${registro.email || ''}</td>
-          <td>${registro.parentesco || ''}</td>
-          <td>${registro.comComerciales || ''}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
+  data.forEach(reg => {
+    const fila = document.createElement("tr");
 
-    // 4️⃣ Ejecutar carga al abrir la página
-    cargarRegistros();
-  </script>
+    fila.innerHTML = `
+      <td>${reg.fecha}</td>
+      <td>${reg.nombre}</td>
+      <td>${reg.apellidos}</td>
+      <td>${reg.tipoDoc}</td>
+      <td>${reg.numeroDoc}</td>
+      <td>${reg.fechaNacimiento}</td>
+      <td>${reg.nacionalidad}</td>
+      <td>${reg.paisResidencia}</td>
+      <td>${reg.provincia}</td>
+      <td>${reg.codigoPostal}</td>
+      <td>${reg.municipio}</td>
+      <td>${reg.direccion}</td>
+      <td>${reg.telefono}</td>
+      <td>${reg.email}</td>
+      <td>${reg.parentesco}</td>
+      <td>${reg.comComerciales}</td>
+    `;
+
+    tabla.appendChild(fila);
+  });
+}
+
+cargarDatos();
+</script>
+
 </body>
 </html>
