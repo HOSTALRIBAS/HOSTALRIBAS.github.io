@@ -3,14 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <title>Datos</title>
-  <style>
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #333; padding: 5px; }
-  </style>
+
+<style>
+body {
+  margin-left: 0.5cm;
+  margin-right: 0.5cm;
+  font-family: Arial, sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed; /* clave para ajustar */
+}
+
+th, td {
+  border: 0.5px solid #999; /* líneas finas grises */
+  padding: 4px;
+  font-size: 0.8em; /* un poco más pequeño */
+  text-align: left;
+
+  /* CLAVE: permitir ajuste */
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Cabecera de la tabla */
+th {
+  background-color: #B5B2B2; /* gris muy claro */
+  text-align: center;         /* centra el texto */
+}
+
+td:last-child {
+  text-align: center; /* centra el PDF icono */
+}
+</style>
+
 </head>
 <body>
-
-<h2>Registros</h2>
 
 <table>
   <thead>
@@ -20,9 +50,9 @@
       <th>APELLIDOS</th>
       <th>TIPO DOC</th>
       <th>NR DOC</th>
-      <th>FECHA NACIMIENTO</th>
+      <th>NACIMIENTO</th>
       <th>NACIONALIDAD</th>
-      <th>PAÍS RESIDENCIA</th>
+      <th>RESIDENCIA</th>
       <th>PROVINCIA</th>
       <th>COD. POSTAL</th>
       <th>MUNICIPIO</th>
@@ -30,11 +60,14 @@
       <th>TELÉFONO</th>
       <th>EMAIL</th>
       <th>PARENTESCO</th>
-      <th>AUT. COMERCIAL</th>
+      <th>AUT. COM.</th>
+      <th>PDF</th>
     </tr>
   </thead>
   <tbody id="tabla"></tbody>
 </table>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -45,7 +78,10 @@ const supabaseData = window.supabase.createClient(
 );
 
 async function cargarDatos() {
-  const { data, error } = await supabaseData.from("REGISTRE").select("*").order("id", { ascending: true });
+  const { data, error } = await supabaseData
+    .from("REGISTRE")
+    .select("*")
+    .order("id", { ascending: true });
 
   if (error) {
     console.error(error);
@@ -57,29 +93,81 @@ async function cargarDatos() {
 
   data.forEach(reg => {
     const fila = document.createElement("tr");
-    fila.innerHTML = `
-      <td>${reg.fecha}</td>
-      <td>${reg.nombre}</td>
-      <td>${reg.apellidos}</td>
-      <td>${reg.tipoDoc}</td>
-      <td>${reg.numeroDoc}</td>
-      <td>${reg.fechaNacimiento}</td>
-      <td>${reg.nacionalidad}</td>
-      <td>${reg.paisResidencia}</td>
-      <td>${reg.provincia}</td>
-      <td>${reg.codigoPostal}</td>
-      <td>${reg.municipio}</td>
-      <td>${reg.direccion}</td>
-      <td>${reg.telefono}</td>
-      <td>${reg.email}</td>
-      <td>${reg.parentesco}</td>
-      <td>${reg.comComerciales}</td>
-    `;
-    tabla.appendChild(fila);
+fila.innerHTML = `
+  <td>${reg.fecha}</td>
+  <td>${reg.nombre}</td>
+  <td>${reg.apellidos}</td>
+  <td>${reg.tipoDoc}</td>
+  <td>${reg.numeroDoc}</td>
+  <td>${reg.fechaNacimiento}</td>
+  <td>${reg.nacionalidad}</td>
+  <td>${reg.paisResidencia}</td>
+  <td>${reg.provincia}</td>
+  <td>${reg.codigoPostal}</td>
+  <td>${reg.municipio}</td>
+  <td>${reg.direccion}</td>
+  <td>${reg.telefono}</td>
+  <td>${reg.email}</td>
+  <td>${reg.parentesco}</td>
+  <td>${reg.comComerciales}</td>
+
+  <td>
+    <img src="pdf-icon.png" 
+         style="width:20px; cursor:pointer;"
+         onclick='generarPDF(${JSON.stringify(reg)})'>
+  </td>
+`;
+
+tabla.appendChild(fila);
   });
 }
 
 cargarDatos();
+</script>
+
+<script>
+const { jsPDF } = window.jspdf;
+
+function generarPDF(reg) {
+  const doc = new jsPDF({
+    orientation: "landscape",
+    unit: "cm",
+    format: [20.5, 14.5] // ancho x alto
+  });
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+
+  let y = 1.5;
+
+  function linea(texto) {
+    doc.text(texto, 1.5, y);
+    y += 0.7;
+  }
+
+  doc.setFontSize(12);
+  doc.text("HOSTAL RIBAS", 1.5, 1);
+  doc.setFontSize(10);
+
+  linea(`Fecha: ${reg.fecha}`);
+  linea(`Nombre: ${reg.nombre}`);
+  linea(`Apellidos: ${reg.apellidos}`);
+  linea(`Tipo Documento: ${reg.tipoDoc}`);
+  linea(`Número Documento: ${reg.numeroDoc}`);
+  linea(`Fecha Nacimiento: ${reg.fechaNacimiento}`);
+  linea(`Nacionalidad: ${reg.nacionalidad}`);
+  linea(`País Residencia: ${reg.paisResidencia}`);
+  linea(`Provincia: ${reg.provincia}`);
+  linea(`Código Postal: ${reg.codigoPostal}`);
+  linea(`Municipio: ${reg.municipio}`);
+  linea(`Dirección: ${reg.direccion}`);
+  linea(`Teléfono: ${reg.telefono}`);
+  linea(`Email: ${reg.email}`);
+  linea(`Parentesco: ${reg.parentesco}`);
+  linea(`Aut. Comercial: ${reg.comComerciales}`);
+
+  doc.save(`registro_${reg.nombre}_${reg.apellidos}.pdf`);
+}
 </script>
 
 </body>
