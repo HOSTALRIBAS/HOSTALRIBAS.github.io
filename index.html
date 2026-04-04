@@ -56,7 +56,6 @@
       color: #000; /* Texto negro */
     }
 
-    /* Radio buttons con '✓' */
     .documento-opcion {
       display: flex;
       align-items: center;
@@ -78,13 +77,9 @@
       background-color: #515151; /* gris para radio no seleccionado */
     }
 
-    .documento-opcion input[type="radio"]:checked::after {
-      content: "✓";
-      position: absolute;
-      top: 0px;
-      left: 2px;
-      font-size: 16px;
-      color: #fff;
+     .documento-opcion input[type="radio"]:checked {
+       background-color: #fff;
+       border-color: #fff;
     }
 
     /* MENORES */
@@ -103,6 +98,12 @@
       margin-top: 10px;
       color: #fff;
     }
+
+.autorizacion label {
+  text-align: justify;
+  display: block;
+}
+
     .autorizacion input { margin-right: 8px; margin-top: 2px; }
 
     /* Botón centrado con fondo blanco */
@@ -132,6 +133,12 @@ button:active {
   transform: scale(0.97);
 }
 
+.documento-opcion label {
+  display: inline;
+  margin: 0;
+  cursor: pointer;
+}
+
   </style>
 </head>
 <body>
@@ -146,15 +153,63 @@ button:active {
 
     <div class="documentos">
       <strong>Tipo de Documento:</strong><br>
-      <div class="documento-opcion"><label><input type="radio" name="tipoDoc" value="DNI" required> DNI</label></div>
-      <div class="documento-opcion"><label><input type="radio" name="tipoDoc" value="PASAPORTE"> PASAPORTE</label></div>
-      <div class="documento-opcion"><label><input type="radio" name="tipoDoc" value="NIE"> NIE</label></div>
-      <div class="documento-opcion"><label><input type="radio" name="tipoDoc" value="PERMISO DE CONDUCCIÓN"> PERMISO DE CONDUCCIÓN</label></div>
-      <div class="documento-opcion"><label><input type="radio" name="tipoDoc" value="OTRO"> OTRO</label></div>
+<div class="documento-opcion">
+  <input type="radio" name="tipoDoc" value="DNI" id="dni" required>
+  <label for="dni">DNI</label>
+</div>
+
+<div class="documento-opcion">
+  <input type="radio" name="tipoDoc" value="PASAPORTE" id="pasaporte">
+  <label for="pasaporte">PASAPORTE</label>
+</div>
+
+<div class="documento-opcion">
+  <input type="radio" name="tipoDoc" value="NIE" id="nie">
+  <label for="nie">NIE</label>
+</div>
+
+<div class="documento-opcion">
+  <input type="radio" name="tipoDoc" value="PERMISO DE CONDUCIR" id="permiso">
+  <label for="permiso">PERMISO DE CONDUCIR</label>
+</div>
+
+<div class="documento-opcion">
+  <input type="radio" name="tipoDoc" value="OTRO" id="otro">
+  <label for="otro">OTRO</label>
+</div>
     </div>
 
     <label><span>NÚMERO DE DOCUMENTO:</span> <input type="text" id="numeroDoc" required></label>
-    <label><span>FECHA DE NACIMIENTO:</span> <input type="date" id="fechaNacimiento" required></label>
+<label><span>FECHA DE NACIMIENTO:</span>
+  <div style="display:flex; gap:5px;">
+    <select id="diaNacimiento" required>
+      <option value="">Día</option>
+      <!-- Días 1-31 -->
+     
+    </select>
+
+    <select id="mesNacimiento" required>
+      <option value="">Mes</option>
+      <option value="01">Enero</option>
+      <option value="02">Febrero</option>
+      <option value="03">Marzo</option>
+      <option value="04">Abril</option>
+      <option value="05">Mayo</option>
+      <option value="06">Junio</option>
+      <option value="07">Julio</option>
+      <option value="08">Agosto</option>
+      <option value="09">Septiembre</option>
+      <option value="10">Octubre</option>
+      <option value="11">Noviembre</option>
+      <option value="12">Diciembre</option>
+    </select>
+
+    <select id="anioNacimiento" required>
+      <option value="">Año</option>
+      <!-- Generar años 1900 hasta actual con JS -->
+    </select>
+  </div>
+</label>
 
     <label><span>NACIONALIDAD:</span>
       <select id="nacionalidad" required>
@@ -243,37 +298,65 @@ button:active {
       "sb_publishable_XRusyph2RQyJj9t8Y0gl6w_nsf5w_dK"
     );
 
-    document.getElementById("myForm").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const datos = {
-        fecha: new Date().toLocaleString(),
-        nombre: document.getElementById("nombre").value,
-        apellidos: document.getElementById("apellidos").value,
-        tipoDoc: document.querySelector('input[name="tipoDoc"]:checked')?.value,
-        numeroDoc: document.getElementById("numeroDoc").value,
-        fechaNacimiento: document.getElementById("fechaNacimiento").value,
-        nacionalidad: document.getElementById("nacionalidad").value,
-        paisResidencia: document.getElementById("paisResidencia").value,
-        provincia: document.getElementById("provincia").value,
-        codigoPostal: document.getElementById("codigoPostal").value,
-        municipio: document.getElementById("municipio").value,
-        direccion: document.getElementById("direccion").value,
-        telefono: document.getElementById("telefono").value,
-        email: document.getElementById("email").value,
-        parentesco: document.getElementById("parentesco").value,
-        comComerciales: document.getElementById("autorizo").checked ? "Sí" : "No"
-      };
+document.getElementById("myForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
 
-      const { error } = await supabaseForm.from("REGISTRE").insert([datos]);
-      if (error) {
-        console.error(error);
-        alert("Error al guardar");
-      } else {
-        alert("Guardado correctamente");
-        document.getElementById("myForm").reset();
-      }
-    });
+  const dia = document.getElementById("diaNacimiento").value.padStart(2,'0');
+  const mes = document.getElementById("mesNacimiento").value.padStart(2,'0');
+  const anio = document.getElementById("anioNacimiento").value;
+
+  const datos = {
+    fecha: new Date().toLocaleString(),
+    nombre: document.getElementById("nombre").value,
+    apellidos: document.getElementById("apellidos").value,
+    tipoDoc: document.querySelector('input[name="tipoDoc"]:checked')?.value,
+    numeroDoc: document.getElementById("numeroDoc").value,
+    fechaNacimiento: `${dia}-${mes}-${anio}`, // DD-MM-YYYY
+    nacionalidad: document.getElementById("nacionalidad").value,
+    paisResidencia: document.getElementById("paisResidencia").value,
+    provincia: document.getElementById("provincia").value,
+    codigoPostal: document.getElementById("codigoPostal").value,
+    municipio: document.getElementById("municipio").value,
+    direccion: document.getElementById("direccion").value,
+    telefono: document.getElementById("telefono").value,
+    email: document.getElementById("email").value,
+    parentesco: document.getElementById("parentesco").value,
+    comComerciales: document.getElementById("autorizo").checked ? "Sí" : "No"
+  };
+
+  const { error } = await supabaseForm.from("REGISTRE").insert([datos]);
+  if (error) {
+    console.error(error);
+    alert("Error al guardar");
+  } else {
+    alert("Guardado correctamente");
+    document.getElementById("myForm").reset();
+  }
+});
+
   </script>
+
+<script>
+  // Llenar días 1-31
+  const diaSelect = document.getElementById('diaNacimiento');
+  for (let i = 1; i <= 31; i++) {
+    const option = document.createElement('option');
+    option.value = i.toString().padStart(2, '0');
+    option.textContent = i;
+    diaSelect.appendChild(option);
+  }
+
+  // Llenar años desde 1900 hasta el año actual
+  const anioSelect = document.getElementById('anioNacimiento');
+  const anioActual = new Date().getFullYear();
+  for (let i = anioActual; i >= 1900; i--) {
+    const option = document.createElement('option');
+    option.value = i;
+    option.textContent = i;
+    anioSelect.appendChild(option);
+  }
+</script>
+
 
 </body>
 </html>
