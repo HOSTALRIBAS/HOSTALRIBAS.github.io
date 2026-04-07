@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro de Viajeros</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 20px auto;
+      line-height: 1.5;
+      font-size: 1.125em;
+      background-color: #515151; /* Fondo gris */
+      color: #fff;
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin: 10px 0;
+    }
+    h1 { font-size: 2em; font-weight: bold; }
+    h2 { font-size: 1.25em; font-weight: normal; }
+
+    form {
+      background-color: #515151; /* Fondo gris */
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    /* Etiquetas alineadas a la derecha */
+    label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    label > span {
+      text-align: right;
+      margin-right: 10px;
+      min-width: 180px;
+    }
+
+    /* Inputs y selects con fondo blanco */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    select {
+      flex: 1;
+      padding: 6px 10px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff; /* Fondo blanco */
+      color: #000; /* Texto negro */
+    }
+
+    .documento-opcion {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .documento-opcion input[type="radio"] {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #fff;
+      border-radius: 4px;
+      margin-right: 6px;
+      position: relative;
+      cursor: pointer;
+      background-color: #515151; /* gris para radio no seleccionado */
+    }
+
+     .documento-opcion input[type="radio"]:checked {
+       background-color: #fff;
+       border-color: #fff;
+    }
+
+    /* MENORES */
+    .menores {
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 6px;
+      text-decoration: underline;
+    }
+
+    /* Autorización */
+    .autorizacion {
+      font-size: 0.875em;
+      display: flex;
+      align-items: flex-start;
+      margin-top: 10px;
+      color: #fff;
+    }
+
+.autorizacion label {
+  text-align: justify;
+  display: block;
+}
+
+    .autorizacion input { margin-right: 8px; margin-top: 2px; }
+
+    /* Botón centrado con fondo blanco */
+    button {
+  display: block;
+  margin: 20px auto 0 auto;
+  padding: 10px 20px;
+  font-size: 1.125em;
+  background-color: #fff;
+  color: #515151;
+  border: 1px solid #515151;
+  border-radius: 6px;
+  cursor: pointer;
+
+  /* Animación suave */
+  transition: all 0.2s ease;
+}
+
+/* Hover → crece */
+button:hover {
+  background-color: #fff;
+  transform: scale(1.05);
+}
+
+/* Click → efecto pulsado */
+button:active {
+  transform: scale(0.97);
+}
+
+.documento-opcion label {
+  display: inline;
+  margin: 0;
+  cursor: pointer;
+}
+
+  </style>
+</head>
+<body>
+
+  <h1>HOSTAL RIBAS</h1>
+  <h2>Registro de Viajeros de Establecimientos de Hostelaje</h2>
+
+  <form id="myForm">
+
+    <label><span>NOMBRE:</span> <input type="text" id="nombre" required></label>
+    <label><span>APELLIDOS:</span> <input type="text" id="apellidos" required></label>
+
+    <div class="documentos">
+      <strong>Tipo de Documento:</strong><br>
+<div class="documento-opcion">
+  <input type="radio" name="tipoDoc" value="DNI" id="dni" required>
+  <label for="dni">DNI</label>
+</div>
+
+<div class="documento-opcion">
+  <input type="radio" name="tipoDoc" value="PASAPORTE" id="pasaporte">
+  <label for="pasaporte">PASAPORTE</label>
+</div>
+
+<div class="documento-opcion">
+  <input type="radio" name="tipoDoc" value="NIE" id="nie">
+  <label for="nie">NIE</label>
+</div>
+
+<div class="documento-opcion">
+  <input type="radio" name="tipoDoc" value="PERMISO DE CONDUCIR" id="permiso">
+  <label for="permiso">PERMISO DE CONDUCIR</label>
+</div>
+
+<div class="documento-opcion">
+  <input type="radio" name="tipoDoc" value="OTRO" id="otro">
+  <label for="otro">OTRO</label>
+</div>
+    </div>
+
+    <label><span>NÚMERO DE DOCUMENTO:</span> <input type="text" id="numeroDoc" required></label>
+<label><span>FECHA DE NACIMIENTO:</span>
+  <div style="display:flex; gap:5px;">
+    <select id="diaNacimiento" required>
+      <option value="">Día</option>
+      <!-- Días 1-31 -->
+     
+    </select>
+
+    <select id="mesNacimiento" required>
+      <option value="">Mes</option>
+      <option value="01">Enero</option>
+      <option value="02">Febrero</option>
+      <option value="03">Marzo</option>
+      <option value="04">Abril</option>
+      <option value="05">Mayo</option>
+      <option value="06">Junio</option>
+      <option value="07">Julio</option>
+      <option value="08">Agosto</option>
+      <option value="09">Septiembre</option>
+      <option value="10">Octubre</option>
+      <option value="11">Noviembre</option>
+      <option value="12">Diciembre</option>
+    </select>
+
+    <select id="anioNacimiento" required>
+      <option value="">Año</option>
+      <!-- Generar años 1900 hasta actual con JS -->
+    </select>
+  </div>
+</label>
+
+    <label><span>NACIONALIDAD:</span>
+      <select id="nacionalidad" required>
+        <option value="">Selecciona país</option>
+        <option value="España">España</option>
+        <option value="Francia">Francia</option>
+        <option value="Alemania">Alemania</option>
+        <option value="Italia">Italia</option>
+        <option value="Portugal">Portugal</option>
+        <option value="Reino Unido">Reino Unido</option>
+        <option value="Países Bajos">Países Bajos</option>
+        <option value="Bélgica">Bélgica</option>
+        <option value="Suiza">Suiza</option>
+        <option value="Suecia">Suecia</option>
+        <option value="Estados Unidos">Estados Unidos</option>
+        <option value="Canadá">Canadá</option>
+        <option value="Brasil">Brasil</option>
+        <option value="Argentina">Argentina</option>
+        <option value="Chile">Chile</option>
+        <option value="Colombia">Colombia</option>
+        <option value="México">México</option>
+        <option value="Marruecos">Marruecos</option>
+        <option value="Argelia">Argelia</option>
+        <option value="Túnez">Túnez</option>
+        <option value="Egipto">Egipto</option>
+        <option value="Australia">Australia</option>
+        <option value="Rusia">Rusia</option>
+        <option value="Otros">Otros Países</option>
+      </select>
+    </label>
+
+    <label><span>PAÍS DE RESIDENCIA:</span>
+      <select id="paisResidencia" required>
+        <option value="">Selecciona país</option>
+        <option value="España">España</option>
+        <option value="Francia">Francia</option>
+        <option value="Alemania">Alemania</option>
+        <option value="Italia">Italia</option>
+        <option value="Portugal">Portugal</option>
+        <option value="Reino Unido">Reino Unido</option>
+        <option value="Países Bajos">Países Bajos</option>
+        <option value="Bélgica">Bélgica</option>
+        <option value="Suiza">Suiza</option>
+        <option value="Suecia">Suecia</option>
+        <option value="Estados Unidos">Estados Unidos</option>
+        <option value="Canadá">Canadá</option>
+        <option value="Brasil">Brasil</option>
+        <option value="Argentina">Argentina</option>
+        <option value="Chile">Chile</option>
+        <option value="Colombia">Colombia</option>
+        <option value="México">México</option>
+        <option value="Marruecos">Marruecos</option>
+        <option value="Argelia">Argelia</option>
+        <option value="Túnez">Túnez</option>
+        <option value="Egipto">Egipto</option>
+        <option value="Australia">Australia</option>
+        <option value="Rusia">Rusia</option>
+        <option value="Otros">Otros Países</option>
+      </select>
+    </label>
+
+    <label><span>PROVINCIA:</span> <input type="text" id="provincia" required></label>
+    <label><span>CÓDIGO POSTAL:</span> <input type="text" id="codigoPostal" required></label>
+    <label><span>MUNICIPIO:</span> <input type="text" id="municipio" required></label>
+    <label><span>DIRECCIÓN:</span> <input type="text" id="direccion" required></label>
+    <label><span>TELÉFONO:</span> <input type="tel" id="telefono" required></label>
+    <label><span>EMAIL:</span> <input type="email" id="email" required></label>
+<div style="display: flex; align-items: center; justify-content: space-between; margin-top:10px; margin-bottom:6px;">
+  <div class="menores">MENORES DE EDAD</div>
+  <input type="text" id="edadStatus" readonly style="flex:0 0 200px; padding:6px; font-size:1em; border-radius:4px; border:1px solid #ccc; text-align:center; background-color:#fff; color:#000;">
+</div>
+
+<label><span>RELACIÓN DE PARENTESCO:</span> <input type="text" id="parentesco"></label>
+
+    <div class="autorizacion">
+      <input type="checkbox" id="autorizo">
+      <label for="autorizo">
+        Autorizo a Hostal Ribas a enviar comunicaciones comerciales de sus productos y servicios a mi correo electrónico. Puede consultar nuestra política de protección de datos en https://www.hostalribas.com/protecdades
+      </label>
+    </div>
+
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const supabaseForm = window.supabase.createClient(
+      "https://beskvtpqslbdgxpaykpr.supabase.co",
+      "sb_publishable_XRusyph2RQyJj9t8Y0gl6w_nsf5w_dK"
+    );
+
+document.getElementById("myForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const dia = document.getElementById("diaNacimiento").value.padStart(2,'0');
+  const mes = document.getElementById("mesNacimiento").value.padStart(2,'0');
+  const anio = document.getElementById("anioNacimiento").value;
+
+  const datos = {
+    fecha: new Date().toISOString(),
+    nombre: document.getElementById("nombre").value,
+    apellidos: document.getElementById("apellidos").value,
+    tipoDoc: document.querySelector('input[name="tipoDoc"]:checked')?.value,
+    numeroDoc: document.getElementById("numeroDoc").value,
+    fechaNacimiento: `${anio}-${mes}-${dia}`, // YYYY-MM-DD (ISO)
+    nacionalidad: document.getElementById("nacionalidad").value,
+    paisResidencia: document.getElementById("paisResidencia").value,
+    provincia: document.getElementById("provincia").value,
+    codigoPostal: document.getElementById("codigoPostal").value,
+    municipio: document.getElementById("municipio").value,
+    direccion: document.getElementById("direccion").value,
+    telefono: document.getElementById("telefono").value,
+    email: document.getElementById("email").value,
+    parentesco: document.getElementById("parentesco").value,
+    comComerciales: document.getElementById("autorizo").checked ? "Sí" : "No"
+  };
+
+  const { error } = await supabaseForm.from("REGISTRE").insert([datos]);
+  if (error) {
+    console.error(error);
+    alert("Error al guardar");
+  } else {
+    alert("Guardado correctamente");
+    document.getElementById("myForm").reset();
+  }
+});
+
+  </script>
+
+<script>
+  // Llenar días 1-31
+  const diaSelect = document.getElementById('diaNacimiento');
+  for (let i = 1; i <= 31; i++) {
+    const option = document.createElement('option');
+    option.value = i.toString().padStart(2, '0');
+    option.textContent = i;
+    diaSelect.appendChild(option);
+  }
+
+  // Llenar años desde 1900 hasta el año actual
+  const anioSelect = document.getElementById('anioNacimiento');
+  const anioActual = new Date().getFullYear();
+  for (let i = anioActual; i >= 1900; i--) {
+    const option = document.createElement('option');
+    option.value = i;
+    option.textContent = i;
+    anioSelect.appendChild(option);
+  }
+
+
+function actualizarEdadStatus() {
+  const dia = document.getElementById("diaNacimiento").value;
+  const mes = document.getElementById("mesNacimiento").value;
+  const anio = document.getElementById("anioNacimiento").value;
+  const statusInput = document.getElementById("edadStatus");
+
+  if (!dia || !mes || !anio) {
+    statusInput.value = "";
+    return;
+  }
+
+  const nacimiento = new Date(`${anio}-${mes}-${dia}`);
+  const hoy = new Date();
+
+  let edad = hoy.getFullYear() - nacimiento.getFullYear();
+  const mesDiff = hoy.getMonth() - nacimiento.getMonth();
+  const diaDiff = hoy.getDate() - nacimiento.getDate();
+  if (mesDiff < 0 || (mesDiff === 0 && diaDiff < 0)) edad--;
+
+  statusInput.value = edad >= 18 ? "ADULTO" : "MENOR DE EDAD";
+}
+
+// Escuchamos cambios en los select de fecha
+document.getElementById("diaNacimiento").addEventListener("change", actualizarEdadStatus);
+document.getElementById("mesNacimiento").addEventListener("change", actualizarEdadStatus);
+document.getElementById("anioNacimiento").addEventListener("change", actualizarEdadStatus);
+
+
+</script>
+
+
+</body>
+</html>
