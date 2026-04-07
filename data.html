@@ -229,7 +229,7 @@ function generarPDF(reg) {
   const paddingX = 0.5;
 
   const fecha = new Date(reg.fecha);
-  const fechaFormateada = `${String(fecha.getDate()).padStart(2,'0')}-${String(fecha.getMonth()+1).padStart(2,'0')}-${String(fecha.getFullYear()).slice(-2)}`;
+  const fechaFormateada = `${String(fecha.getDate()).padStart(2,'0')}/${String(fecha.getMonth()+1).padStart(2,'0')}/${String(fecha.getFullYear()).slice(-2)}`;
   const [anioN, mesN, diaN] = reg.fechaNacimiento.split('-');
   const nacimientoPDF = `${diaN}/${mesN}/${anioN.slice(-2)}`;
 
