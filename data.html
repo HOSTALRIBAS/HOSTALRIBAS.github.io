@@ -5,6 +5,7 @@
   <title>Datos</title>
 
 <style>
+
 body {
   margin-left: 0.5cm;
   margin-right: 0.5cm;
@@ -52,8 +53,22 @@ td:last-child {
   transform: translateY(-5px);
 }
 
+.parentiu {
+  font-weight: bold;
+}
+
 .menor {
   font-weight: bold;
+  color: black;
+}
+
+.flecha {
+  color: red;
+  font-weight: normal;
+}
+
+.centrado {
+  text-align: center;
 }
 
 </style>
@@ -62,31 +77,31 @@ td:last-child {
 <body>
 
 <div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th>DATA</th>
-        <th>NOM</th>
-        <th>COGNOMS</th>
-        <th>TIPUS DOC</th>
-        <th>NR DOC</th>
-        <th>NAIXEMENT</th>
-        <th>NACIONALITAT</th>
-        <th>RESIDÈNCIA</th>
-        <th>PROVÍNCIA</th>
-        <th>CODI POSTAL</th>
-        <th>LOCALITAT</th>
-        <th>ADREÇA</th>
-        <th>TELÈFON</th>
-        <th>EMAIL</th>
-        <th>AD/ME</th>
-        <th>PARENTIU</th>
-        <th>AUT. COM.</th>
-        <th>PDF</th>
-      </tr>
-    </thead>
-    <tbody id="tabla"></tbody>
-  </table>
+<table>
+  <thead>
+    <tr>
+      <th style="width:6%;">DATA</th>
+      <th style="width:8%;">NOM</th>
+      <th style="width:8%;">COGNOMS</th>
+      <th style="width:5%;">TIPUS DOC</th>
+      <th style="width:7%;">NR DOC</th>
+      <th style="width:6%;">NAIXEMENT</th>
+      <th style="width:5%;">NACIONALITAT</th>
+      <th style="width:5%;">RESIDÈNCIA</th>
+      <th style="width:11%;">ADREÇA</th>
+      <th style="width:3%;">CP</th>
+      <th style="width:7%;">LOCALITAT</th>
+      <th style="width:5%;">PROVÍNCIA</th>
+      <th style="width:6%;">TELÈFON</th>
+      <th style="width:11%;">EMAIL</th>
+      <th style="width:4%;">AD/ME</th>
+      <th style="width:6%;">PARENTIU</th>
+      <th style="width:3%;">AUT. COM.</th>
+      <th style="width:3%;">PDF</th>
+    </tr>
+  </thead>
+  <tbody id="tabla"></tbody>
+</table>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -159,7 +174,7 @@ if (index === data.length - 1) {
 
   setTimeout(() => {
     fila.classList.remove("nueva-fila");
-  }, 12000);
+  }, 20000);
 }
 
   fila.innerHTML = `
@@ -171,15 +186,19 @@ if (index === data.length - 1) {
     <td>${nacimientoFormateado}</td>
     <td>${reg.nacionalidad}</td>
     <td>${reg.paisResidencia}</td>
-    <td>${reg.provincia}</td>
+    <td>${reg.direccion}</td>
     <td>${reg.codigoPostal}</td>
     <td>${reg.municipio}</td>
-    <td>${reg.direccion}</td>
+    <td>${reg.provincia}</td>
     <td>${reg.telefono}</td>
     <td>${reg.email}</td>
-    <td class="${estadoEdad === 'ME' ? 'menor' : ''}" style="text-align:center;">${estadoEdad}</td>
-    <td>${reg.parentesco}</td>
-    <td>${reg.comComerciales}</td>
+    <td class="centrado">
+  ${estadoEdad === 'ME' 
+    ? '<span class="menor">ME&nbsp;&nbsp;&nbsp;</span><span class="flecha">>></span>' 
+    : 'AD'}
+</td>
+    <td class="parentiu">${reg.parentesco}</td>
+    <td style="text-align:center;">${reg.comComerciales}</td>
     <td>
       <img src="pdf-icon.png" 
            style="width:26px; cursor:pointer;"
@@ -227,13 +246,31 @@ function generarPDF(reg) {
   const startX = ((29.5 - borderW) / 2 - 8 + 1) - 0.4;
   const startY = 0.5 - 0.3;
   const paddingX = 0.5;
+  const lineHeight = 0.7;
 
+  const centerX = startX + borderW / 2;
+
+  // Fecha del registro
   const fecha = new Date(reg.fecha);
   const fechaFormateada = `${String(fecha.getDate()).padStart(2,'0')}/${String(fecha.getMonth()+1).padStart(2,'0')}/${String(fecha.getFullYear()).slice(-2)}`;
-  const [anioN, mesN, diaN] = reg.fechaNacimiento.split('-');
-  const nacimientoPDF = `${diaN}/${mesN}/${anioN.slice(-2)}`;
 
-  // Contenido del PDF: pares [título, valor]
+  // Manejo seguro de fechaNacimiento
+  let nacimientoPDF = "";
+  let estadoEdad = "AD";
+  if (reg.fechaNacimiento) {
+    const [anioN, mesN, diaN] = reg.fechaNacimiento.split('-');
+    nacimientoPDF = `${diaN}/${mesN}/${anioN.slice(-2)}`;
+
+    const nacimientoDate = new Date(anioN, mesN - 1, diaN);
+    let edad = fecha.getFullYear() - nacimientoDate.getFullYear();
+    if (fecha.getMonth() < nacimientoDate.getMonth() ||
+        (fecha.getMonth() === nacimientoDate.getMonth() && fecha.getDate() < nacimientoDate.getDate())) {
+      edad--;
+    }
+    if (edad < 18) estadoEdad = "ME";
+  }
+
+  // Campos
   const fields = [
     ["DATA:", fechaFormateada],
     ["NOM:", reg.nombre],
@@ -243,69 +280,85 @@ function generarPDF(reg) {
     ["DATA NAIXEMENT:", nacimientoPDF],
     ["NACIONALITAT:", reg.nacionalidad],
     ["PAÍS RESIDÈNCIA:", reg.paisResidencia],
-    ["PROVÍNCIA:", reg.provincia],
+    ["ADREÇA:", reg.direccion],
     ["CODI POSTAL:", reg.codigoPostal],
     ["LOCALITAT:", reg.municipio],
-    ["ADREÇA:", reg.direccion],
+    ["PROVÍNCIA:", reg.provincia],
     ["TELÈFON:", reg.telefono],
     ["EMAIL:", reg.email],
+    ["AD/ME:", estadoEdad],
     ["PARENTIU:", reg.parentesco],
     ["AUT. COMERCIAL:", reg.comComerciales]
   ];
 
-  const lineHeight = 0.7;
-  let y = startY + 1.2; // espacio adicional arriba para que "HOSTAL RIBAS" baje
+  let y = startY + 1.2; // espacio arriba para encabezado
 
-  // Título principal en Helvetica normal
+  // --- ENCABEZADO ---
   doc.setFont("helvetica", "normal");
   doc.setFontSize(12);
-  doc.setTextColor(0); // negro
-  doc.text("HOSTAL RIBAS", startX + paddingX, y);
+  doc.text("HOSTAL RIBAS", centerX, y, { align: "center" });
+
   y += lineHeight;
 
   doc.setFontSize(10);
-  doc.text("REGISTRE DE VIATGERS D'ESTABLIMENTS D'HOSTALATGE.", startX + paddingX, y);
-  y += lineHeight + 0.5;
+  doc.text("REGISTRE DE VIATGERS D'ESTABLIMENTS D'HOSTALATGE.", centerX, y, { align: "center" });
 
-  // Títulos de campos en Helvetica, valores en Times/Courier gris oscuro
+  
+  y += 0.3;
+  const lineWidthHeader = 10.2;
+  doc.setDrawColor(150);
+  doc.setLineWidth(0.004);
+  doc.line(centerX - lineWidthHeader/2, y, centerX + lineWidthHeader/2, y);
+
+  y += lineHeight + 0.3;
+
+  // --- CAMPOS ---
   fields.forEach(([title, value]) => {
-    // Título en Helvetica normal
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
-    doc.setTextColor(0); // negro
+    doc.setTextColor(0);
     doc.text(title, startX + paddingX, y);
 
-    // Valor en Times o Courier, gris oscuro
-    doc.setFont("times", "normal"); // o "courier"
+    doc.setFont("times", "normal");
     doc.setFontSize(10);
-    doc.setTextColor(50); // gris oscuro
-    doc.text(value.toString(), startX + paddingX + 3.5, y); // más hacia la izquierda
+    doc.setTextColor(50);
+    doc.text((value || "").toString(), startX + paddingX + 3.5, y);
 
     y += lineHeight;
   });
 
-  // FIRMA
-  const firmaSpacing = 2;
+  // --- FIRMA ---
+  const firmaSpacing = 1.2;
   const nombreSpacing = 3;
   y += firmaSpacing;
 
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
-  doc.setTextColor(0); // negro
+  doc.setTextColor(0);
   doc.text("SIGNATURA", startX + paddingX, y);
 
   y += nombreSpacing;
 
-  doc.setFont("times", "normal"); // o "courier"
+  doc.setFont("times", "normal");
   doc.setFontSize(10);
-  doc.setTextColor(50); // gris oscuro
+  doc.setTextColor(50);
   doc.text(`${reg.nombre} ${reg.apellidos}`, startX + paddingX, y);
 
-  // Borde gris muy fino
+  // Texto derecho
+  const textoInferior = `LLORET DE MAR, A ${fechaFormateada}`;
+  const margenDerecho = 0.5;
+  const xDerecha = startX + borderW - margenDerecho;
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(0);
+  doc.text(textoInferior, xDerecha, y, { align: "right" });
+
+  // --- BORDE ---
   doc.setDrawColor(150);
   doc.setLineWidth(borderWidth);
   doc.rect(startX, startY, borderW, borderH);
 
+  // Guardar PDF
   doc.save(`${reg.nombre}_${reg.apellidos}`.replace(/\s+/g,'_') + ".pdf");
 }
 
