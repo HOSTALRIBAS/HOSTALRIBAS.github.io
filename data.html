@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Datos</title>
+  <title>REGISTRE</title>
 
 <style>
 
@@ -24,11 +24,12 @@ table {
   border-collapse: collapse;
   width: 100%;
   table-layout: fixed;
+  border: 1px solid rgba(0,0,0,0.3);
 }
 
 th, td {
-  border: 0.5px solid #999;
-  padding: 4px;
+  border: 1px solid rgba(0,0,0,0.3); 
+  padding: 2px;
   font-size: 0.8em;
   text-align: left;
   word-break: break-word;
@@ -80,22 +81,22 @@ td:last-child {
 <table>
   <thead>
     <tr>
-      <th style="width:6%;">DATA</th>
+      <th style="width:4%;">DATA</th>
       <th style="width:8%;">NOM</th>
       <th style="width:8%;">COGNOMS</th>
       <th style="width:5%;">TIPUS DOC</th>
-      <th style="width:7%;">NR DOC</th>
+      <th style="width:6%;">NR DOC</th>
       <th style="width:6%;">NAIXEMENT</th>
-      <th style="width:5%;">NACIONALITAT</th>
-      <th style="width:5%;">RESIDÈNCIA</th>
-      <th style="width:11%;">ADREÇA</th>
-      <th style="width:3%;">CP</th>
+      <th style="width:8%;">NACIONALITAT</th>
+      <th style="width:8%;">RESIDÈNCIA</th>
+      <th style="width:10%;">ADREÇA</th>
+      <th style="width:4%;">CP</th>
       <th style="width:7%;">LOCALITAT</th>
-      <th style="width:5%;">PROVÍNCIA</th>
-      <th style="width:6%;">TELÈFON</th>
-      <th style="width:11%;">EMAIL</th>
+      <th style="width:7%;">PROVÍNCIA</th>
+      <th style="width:5%;">TELÈFON</th>
+      <th style="width:12%;">EMAIL</th>
       <th style="width:4%;">AD/ME</th>
-      <th style="width:6%;">PARENTIU</th>
+      <th style="width:7%;">PARENTIU</th>
       <th style="width:3%;">AUT. COM.</th>
       <th style="width:3%;">PDF</th>
     </tr>
@@ -165,17 +166,7 @@ if (reg.fechaNacimiento) {
   estadoEdad = edad >= 18 ? "AD" : "ME";
 }
 
-
-
   const fila = document.createElement("tr");
-
-if (index === data.length - 1) {
-  fila.classList.add("nueva-fila");
-
-  setTimeout(() => {
-    fila.classList.remove("nueva-fila");
-  }, 20000);
-}
 
   fila.innerHTML = `
     <td>${fechaFormateada}</td>
@@ -211,16 +202,14 @@ if (index === data.length - 1) {
 
 requestAnimationFrame(() => {
   const contenedor = document.querySelector('.table-container');
-  // Resalta la última fila (si quieres mantener tu efecto)
   const ultimaFila = document.getElementById('tabla').lastElementChild;
   if (ultimaFila) {
     ultimaFila.classList.add("nueva-fila");
     setTimeout(() => {
       ultimaFila.classList.remove("nueva-fila");
-    }, 12000);
+    }, 20000);
   }
 
-  // Scroll al final para mostrar la última fila
   contenedor.scrollTop = contenedor.scrollHeight;
 });
 
@@ -294,12 +283,14 @@ function generarPDF(reg) {
   let y = startY + 1.2; // espacio arriba para encabezado
 
   // --- ENCABEZADO ---
+  doc.setTextColor(85, 85, 85); 
   doc.setFont("helvetica", "normal");
   doc.setFontSize(12);
   doc.text("HOSTAL RIBAS", centerX, y, { align: "center" });
 
   y += lineHeight;
 
+  doc.setTextColor(85, 85, 85); 
   doc.setFontSize(10);
   doc.text("REGISTRE DE VIATGERS D'ESTABLIMENTS D'HOSTALATGE.", centerX, y, { align: "center" });
 
@@ -316,12 +307,12 @@ function generarPDF(reg) {
   fields.forEach(([title, value]) => {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
-    doc.setTextColor(0);
+    doc.setTextColor(90);
     doc.text(title, startX + paddingX, y);
 
     doc.setFont("times", "normal");
     doc.setFontSize(10);
-    doc.setTextColor(50);
+    doc.setTextColor(90);
     doc.text((value || "").toString(), startX + paddingX + 3.5, y);
 
     y += lineHeight;
@@ -334,14 +325,14 @@ function generarPDF(reg) {
 
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
-  doc.setTextColor(0);
+  doc.setTextColor(90);
   doc.text("SIGNATURA", startX + paddingX, y);
 
   y += nombreSpacing;
 
   doc.setFont("times", "normal");
   doc.setFontSize(10);
-  doc.setTextColor(50);
+  doc.setTextColor(90);
   doc.text(`${reg.nombre} ${reg.apellidos}`, startX + paddingX, y);
 
   // Texto derecho
@@ -350,7 +341,7 @@ function generarPDF(reg) {
   const xDerecha = startX + borderW - margenDerecho;
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
-  doc.setTextColor(0);
+  doc.setTextColor(90);
   doc.text(textoInferior, xDerecha, y, { align: "right" });
 
   // --- BORDE ---
