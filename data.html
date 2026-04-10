@@ -115,6 +115,29 @@ const supabaseData = window.supabase.createClient(
   "sb_publishable_XRusyph2RQyJj9t8Y0gl6w_nsf5w_dK"
 );
 
+
+function calcularEdad(fechaNacimiento, fechaBase = new Date()) {
+  if (!fechaNacimiento) return null;
+
+  const [anio, mes, dia] = fechaNacimiento.split("-");
+  const nacimientoDate = new Date(anio, mes - 1, dia);
+
+  let edad = fechaBase.getFullYear() - nacimientoDate.getFullYear();
+
+  const mesActual = fechaBase.getMonth();
+  const diaActual = fechaBase.getDate();
+
+  if (
+    mesActual < nacimientoDate.getMonth() ||
+    (mesActual === nacimientoDate.getMonth() && diaActual < nacimientoDate.getDate())
+  ) {
+    edad--;
+  }
+
+  return edad;
+}
+
+
 async function cargarDatos() {
   const { data, error } = await supabaseData
     .from("REGISTRE")
@@ -129,8 +152,7 @@ async function cargarDatos() {
   const tabla = document.getElementById("tabla");
   tabla.innerHTML = "";
 
-data.forEach((reg, index) => {
-  // FECHA: formatear a DD-MM-AA HH:MM
+data.forEach((reg) => {
   const fecha = new Date(reg.fecha);
   const dia = String(fecha.getDate()).padStart(2,'0');
   const mes = String(fecha.getMonth()+1).padStart(2,'0');
@@ -139,32 +161,18 @@ data.forEach((reg, index) => {
   const minutos = String(fecha.getMinutes()).padStart(2,'0');
   const fechaFormateada = `${dia}/${mes}/${anio} ${horas}:${minutos}`;
 
+  let nacimientoFormateado = "";
+  let estadoEdad = "AD";
 
+  if (reg.fechaNacimiento) {
+    const [anioN, mesN, diaN] = reg.fechaNacimiento.split('-');
+    nacimientoFormateado = `${diaN}/${mesN}/${anioN.slice(-2)}`;
 
-let nacimientoFormateado = "";
-let estadoEdad = "";
-
-if (reg.fechaNacimiento) {
-  const [anioN, mesN, diaN] = reg.fechaNacimiento.split('-');
-
-  // Formatear fecha
-  nacimientoFormateado = `${diaN}/${mesN}/${anioN.slice(-2)}`;
-
-  // Calcular edad
-  const nacimientoDate = new Date(`${anioN}-${mesN}-${diaN}`);
-  const hoy = new Date();
-
-  let edad = hoy.getFullYear() - nacimientoDate.getFullYear();
-
-  if (
-    hoy.getMonth() < nacimientoDate.getMonth() ||
-    (hoy.getMonth() === nacimientoDate.getMonth() && hoy.getDate() < nacimientoDate.getDate())
-  ) {
-    edad--;
+    const edad = calcularEdad(reg.fechaNacimiento);
+    if (edad !== null && edad < 18) {
+      estadoEdad = "ME";
+    }
   }
-
-  estadoEdad = edad >= 18 ? "AD" : "ME";
-}
 
   const fila = document.createElement("tr");
 
@@ -184,18 +192,26 @@ if (reg.fechaNacimiento) {
     <td>${reg.telefono}</td>
     <td>${reg.email}</td>
     <td class="centrado">
-  ${estadoEdad === 'ME' 
-    ? '<span class="menor">ME&nbsp;&nbsp;&nbsp;</span><span class="flecha">>></span>' 
-    : 'AD'}
-</td>
+      ${estadoEdad === 'ME'
+        ? '<span class="menor">ME&nbsp;&nbsp;&nbsp;</span><span class="flecha">>></span>'
+        : 'AD'}
+    </td>
     <td class="parentiu">${reg.parentesco}</td>
     <td style="text-align:center;">${reg.comComerciales}</td>
-    <td>
-      <img src="pdf-icon.png" 
-           style="width:26px; cursor:pointer;"
-           onclick='generarPDF(${JSON.stringify(reg)})'>
-    </td>
   `;
+
+  // PDF botón
+  const img = document.createElement("img");
+  img.src = "pdf-icon.png";
+  img.style.width = "26px";
+  img.style.cursor = "pointer";
+  img.addEventListener("click", () => generarPDF(reg));
+
+  const tdPdf = document.createElement("td");
+  tdPdf.style.textAlign = "center";
+  tdPdf.appendChild(img);
+
+  fila.appendChild(tdPdf);
   tabla.appendChild(fila);
 });
 
@@ -245,19 +261,19 @@ function generarPDF(reg) {
 
   // Manejo seguro de fechaNacimiento
   let nacimientoPDF = "";
-  let estadoEdad = "AD";
-  if (reg.fechaNacimiento) {
-    const [anioN, mesN, diaN] = reg.fechaNacimiento.split('-');
-    nacimientoPDF = `${diaN}/${mesN}/${anioN.slice(-2)}`;
 
-    const nacimientoDate = new Date(anioN, mesN - 1, diaN);
-    let edad = fecha.getFullYear() - nacimientoDate.getFullYear();
-    if (fecha.getMonth() < nacimientoDate.getMonth() ||
-        (fecha.getMonth() === nacimientoDate.getMonth() && fecha.getDate() < nacimientoDate.getDate())) {
-      edad--;
-    }
-    if (edad < 18) estadoEdad = "ME";
+let estadoEdad = "AD";
+
+if (reg.fechaNacimiento) {
+  const [anioN, mesN, diaN] = reg.fechaNacimiento.split('-');
+  nacimientoPDF = `${diaN}/${mesN}/${anioN.slice(-2)}`;
+
+  const edad = calcularEdad(reg.fechaNacimiento);
+
+  if (edad !== null && edad < 18) {
+    estadoEdad = "ME";
   }
+}
 
   // Campos
   const fields = [
